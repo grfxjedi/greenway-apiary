@@ -1,0 +1,135 @@
+FORMAT: 1A
+HOST: http://private-adf3e-greenway.apiary-mock.com/
+
+# Greenway
+
+Authoring Learning Objectives.
+
+## Chapters [/chapters]
+
+### List All Chapters [GET]
+
++ Response 200 (application/json)
+
+        {
+            "chapters": [
+                {
+                    "_links": {
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/ec70fc50-2be3-4548-b71d-326460cb2f72" }
+                    },
+                    "id": "ec70fc50-2be3-4548-b71d-326460cb2f72",
+                    "title": "Algebra",
+                    "number": "2",
+                    "createdAt": "2012-04-23T18:25:43.511Z",
+                    "percentComplete": 100
+                }, 
+                {
+                    "_links": {
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/e5b5fe27-8dd2-45af-bcd0-1b60d8608882" }
+                    },
+                    "id": "e5b5fe27-8dd2-45af-bcd0-1b60d8608882",
+                    "title": "Pre-Calculus",
+                    "number": "6",
+                    "createdAt": "2012-04-23T18:25:43.511Z",
+                    "percentComplete": 30
+                }
+            ]
+        }
+        
+
+## Chapter [/chapters/{chapterId}]
+
+### Retrieve Chapter [GET]
+
++ Parameters
+    + chapterId (string) - ID of the Chapter in the form of an GUID.
+
++ Response 200 (application/json)
+
+        {
+            "_links": {
+                "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}" },
+                "pdf": { "href": "http://private-adf3e-greenway.apiary-mock.com/pdfs/06c1cea0-b985-4bf0-ba04-cf0493fcb165.pdf" }
+            },
+            "id": "{chapterId}",
+            "title": "Applications of Integration",
+            "number": "6",
+            "sections": [
+                {
+                    "_links": {
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/6.1" }
+                    },
+                    "title": "Velocity and Net Change",
+                    "number": "6.1",
+                    "completion": {
+                        "completed": 6,
+                        "total": 72
+                    }
+                },
+                {
+                    "_links": {
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/6.2" }
+                    },
+                    "title": "Regions Between Curves",
+                    "number": "6.2",
+                    "completion": {
+                        "completed": 36,
+                        "total": 74
+                    }
+                }
+            ]
+        }
+    
+
+## Section [/sections/{sectionId}]
+
+### Retrieve Section [GET]
+
++ Parameters
+    + sectionId (string) - ID of the Section in the form of an GUID.
+
++ Response 200 (application/json)
+
+        {
+            "_links": {
+                "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/{sectionId}" }
+            },
+            "id": "{sectionId}",
+            "title": "Velocity and Net Change",
+            "number": "6.1",
+            "objectives": [
+                {
+                    "number": "1",
+                    "content": "Review properties of velocity and net change.",
+                    "exercise-ids":[
+                        "ffffffff55ac48f0e4b0c679d51ee134"
+                    ],
+                    "rating": 79,
+                    "rating-suggestions": [
+                        {
+                            "rule": "VB31",
+                            "message": "Mauris sed orci varius dui ultricies dignissim.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/VB31",
+                            "priority": 8
+                        },
+                        {
+                            "rule": "WD22",
+                            "message": "Donec a magna id nulla iaculis dapibus.",
+                            s"documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/WD22",
+                            "priority": 3
+                        }
+                    ]
+                }
+            ],
+            "exercises": [
+                {
+                    "number": "4",
+                    "id":"ffffffff55ac48f0e4b0c679d51ee134",
+                    "content": "Explain how to use definite integrals to find the net change in a quantity, given the rate of change of that quantity.",
+                    "svg-id": "page10"
+                }
+            ],
+            "svgs": [
+                "<svg id='page10' width='891px' height='1111.8130434782609px' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'></svg>"
+            ]
+        }

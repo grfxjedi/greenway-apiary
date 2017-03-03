@@ -42,7 +42,7 @@ Authoring Learning Objectives.
 ### Retrieve Chapter [GET]
 
 + Parameters
-    + chapterId (string) - ID of the Chapter in the form of an GUID.
+    + chapterId (string) - ID of the Chapter in the form of an alphanumeric ID.
 
 + Response 200 (application/json)
 
@@ -54,10 +54,13 @@ Authoring Learning Objectives.
             "id": "{chapterId}",
             "title": "Applications of Integration",
             "number": "6",
+            "createdAt": "2012-04-23T18:25:43.511Z",
+            "percentComplete": 30,
             "sections": [
                 {
                     "_links": {
-                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/6.1" }
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/6.1" },
+                        "objectives": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/6.1/objectives" }
                     },
                     "title": "Velocity and Net Change",
                     "number": "6.1",
@@ -68,7 +71,8 @@ Authoring Learning Objectives.
                 },
                 {
                     "_links": {
-                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/6.2" }
+                        "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/6.2" },
+                        "objectives": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/6.2/objectives" }
                     },
                     "title": "Regions Between Curves",
                     "number": "6.2",
@@ -81,39 +85,42 @@ Authoring Learning Objectives.
         }
     
 
-## Section [/sections/{sectionId}]
+## Section [/chapters/{chapterId}/sections/{sectionId}]
 
 ### Retrieve Section [GET]
 
 + Parameters
-    + sectionId (string) - ID of the Section in the form of an GUID.
+    + sectionId (string) - ID of the Section in the form of a string.
 
 + Response 200 (application/json)
 
         {
             "_links": {
-                "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/sections/{sectionId}" }
+                "self": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/{sectionId}" },
+                "objectives": { "href": "http://private-adf3e-greenway.apiary-mock.com/chapters/{chapterId}/sections/{sectionId}/objectives" }
             },
             "id": "{sectionId}",
             "title": "Velocity and Net Change",
             "number": "6.1",
+            "completion": {
+                "completed": 1,
+                "total": 72
+            },
             "objectives": [
                 {
                     "number": "1",
                     "content": "Review properties of velocity and net change.",
-                    "exercise-ids":[
+                    "exerciseIds":[
                         "ffffffff55ac48f0e4b0c679d51ee134"
                     ],
                     "rating": 79,
-                    "rating-suggestions": [
+                    "ratingSuggestions": [
                         {
-                            "rule": "VB31",
                             "message": "Mauris sed orci varius dui ultricies dignissim.",
                             "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/VB31",
                             "priority": 8
                         },
                         {
-                            "rule": "WD22",
                             "message": "Donec a magna id nulla iaculis dapibus.",
                             "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/WD22",
                             "priority": 3
@@ -123,13 +130,115 @@ Authoring Learning Objectives.
             ],
             "exercises": [
                 {
+                    "number": "1",
+                    "id":"ffffffff55ac48f0e4b0c679d51ee133",
+                    "content": "Explain the meaning of position, displacement, and distance traveled as they apply to an object moving along a line.",
+                    "svgId": "page10"
+                },
+                {
                     "number": "4",
                     "id":"ffffffff55ac48f0e4b0c679d51ee134",
                     "content": "Explain how to use definite integrals to find the net change in a quantity, given the rate of change of that quantity.",
-                    "svg-id": "page10"
+                    "svgId": "page10"
                 }
             ],
             "svgs": [
                 "<svg id='page10' width='891px' height='1111.8130434782609px' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'></svg>"
+            ]
+        }
+        
+## Section Objectives [/chapters/{chapterId}/sections/{sectionId}/objectives]
+
+### Update Section Objectives [PUT]
+
+Send a PUT request containing all of the objectives you want the section to have linked to the exercises in the section (by exercise ID).  No need to send rating or ratingSuggestions properties (they will be ignored).
+
++ Parameters
+    + chapterId (string) - ID of the Chapter in the form of an alphanumeric ID.
+    + sectionId (string) - ID of the Section in the form of a string.
+
++ Request (application/json)
+
+        {
+            "objectives": [
+                {
+                    "number": "1",
+                    "content": "Review properties of velocity and net change.",
+                    "exerciseIds": [ "ffffffff55ac48f0e4b0c679d51ee134" ]
+                }
+            ]
+        }
+
++ Response 200 (application/json)
+
+## Exercise Objective Recommendations [/chapters/{chapterId}/sections/{sectionId}/recommend?limit={limitSize}]
+
+### Retrieve Objective Recommendations [POST]
+
++ Parameters
+    + chapterId (string) - ID of the Chapter in the form of an alphanumeric ID.
+    + sectionId (string) - ID of the Section in the form of a string.
+    + limitSize (number) - Max number of recommendations to return.
+
++ Request (application/json)
+
+        {
+            "exercise": {
+                "content": "Explain how to use definite integrals to find the net change in a quantity, given the rate of change of that quantity."
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "recommendations": [
+                {
+                    "content": "Review properties of velocity and net change.",
+                    "rating": 68,
+                    "ratingSuggestions": [
+                        {
+                            "message": "Mauris sed orci varius dui ultricies dignissim.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/VB31",
+                            "priority": 8
+                        },
+                        {
+                            "message": "Donec a magna id nulla iaculis dapibus.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/WD22",
+                            "priority": 3
+                        }
+                    ]
+                }, 
+                {
+                    "content": "Solve applications involving net change and future value.",
+                    "rating": 92,
+                    "ratingSuggestions": [
+                        {
+                            "message": "Mauris sed orci varius dui ultricies dignissim.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/VB31",
+                            "priority": 8
+                        },
+                        {
+                            "message": "Donec a magna id nulla iaculis dapibus.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/WD22",
+                            "priority": 3
+                        }
+                    ]
+                },
+                {
+                    "content": "Find position and velocity from acceleration.",
+                    "rating": 37,
+                    "ratingSuggestions": [
+                        {
+                            "message": "Mauris sed orci varius dui ultricies dignissim.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/VB31",
+                            "priority": 8
+                        },
+                        {
+                            "message": "Donec a magna id nulla iaculis dapibus.",
+                            "documentation": "http://private-adf3e-greenway.apiary-mock.com/standards/objectives/WD22",
+                            "priority": 3
+                        }
+                    ]
+                }
             ]
         }
